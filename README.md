@@ -1,4 +1,6 @@
-This is a simple Search Utility to find matches within the text and get result as an array of substrings of the length given. Each match is wrapped with the <match> tag.
+This is a simple Search Utility with two functions: 
+  1. To find matches within the text and get result as an array of substrings of the length given. Each match is wrapped with the <match> tag.
+  2. Highlight all the matches within the text by <match> tag wrapping
 
 Utility is in the mjs file and can be used with ES6 code. to include the utility to the other file do the following:
 
