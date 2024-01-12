@@ -1,10 +1,34 @@
 export const SearchUtility = {
 /*
+ * getTextWithHighlightedMatches ARGS:
+ * searchTerm - string
+ * text - string, text to search in
+ * function RETURNS:
+ * text with all the matches wrapped with <match> tag
+ */    
+    getTextWithHighlightedMatches: function (searchTerm, fullText) {
+        const positions = this.findPositions(searchTerm, fullText);
+        if (!positions.length) {
+            return fullText;
+        }
+        let parts = [];
+        positions.map((matchPosition, matchIndex) => {
+            const prevMatchEnd = matchIndex > 0
+                ? positions[matchIndex - 1].end
+                : 0;
+            parts.push(fullText.substr(prevMatchEnd, matchPosition.start - prevMatchEnd));
+            parts.push("<match>" + fullText.substr(matchPosition.start, matchPosition.end - matchPosition.start) + "</match>");
+        });
+        parts.push(fullText.substr(positions[positions.length - 1].end, fullText.length - positions[positions.length - 1].end));
+        return parts.join("");
+    },
+    
+/*
  * getHighlightedChunks ARGS:
  * searchTerm - string
  * text - string, text to search in
  * chunkLength - int, length of the substring with match
- * getHighlightedChunks RETURN:
+ * function RETURNS:
  * an array of substrings with matches, each match wrapped with <match> tag
  */
     getHighlightedChunks: function (searchTerm, fullText, chunkLength) {
